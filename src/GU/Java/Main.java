@@ -34,10 +34,16 @@ public class Main {
 
         //Ex7
         int[] array10 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
-        moveArray(array10, 6);
+        moveArray(array10, -12);
 
         int[] array11 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
         moveArray(array11, -4);
+
+        int[] array12 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+        moveArray(array12, 3);
+
+        int[] array13 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+        moveArray(array13, 11);
     }
     public static void invertArray() {
         int[] array = { 1, 1, 0, 0, 1, 0, 1, 1, 0, 0 };
@@ -100,7 +106,7 @@ public class Main {
     public static void moveArray(int[] arr, int step) {
         int optStep = getOptimalStep(step, arr.length);
         printArray(arr);
-        System.out.println("Сдвиг на " + optStep);
+        System.out.println("Сдвиг на " + step);
         if(step < 0){
             for (int i = optStep; i < 0; i++) {
                 rightMove(arr);
@@ -153,7 +159,7 @@ public class Main {
 
     //Получение оптимального шага для сдвига
     public static int getOptimalStep(int step, int length) {
-        if(step > length){
+        if(Math.abs(step) > length){
             return step%length;
         } else {
             return step;
