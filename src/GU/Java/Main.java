@@ -12,7 +12,7 @@ public class Main {
         persArray[4] = new Person("Alekseev Aleksey", "Engineer", "aleksey@mailbox.com", "81234567894", 35000, 50);
 
         for (Person person : persArray) {
-            if (person.age >= 40) {
+            if (person.age > 40) {
                 person.printPerson();
             }
         }
