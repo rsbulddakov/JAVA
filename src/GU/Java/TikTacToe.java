@@ -4,6 +4,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TikTacToe {
+    private static char playerChar = '0';
+    private static char aiChar = 'X';
+    private static int winCount = 4;
+
     public static void main(String[] args) {
         playGame();
     }
@@ -25,30 +29,33 @@ public class TikTacToe {
     static boolean checkNextPlayerMove(char[][] field) {
         doPlayerMove(field);
         drawFiled(field);
-        return isNextMoveAvailable(field, '0', "Sorry, AI is winner!");
+        return isNextMoveAvailable(field, playerChar, "Sorry, AI is winner!");
     }
 
     static boolean checkNextAIMove(char[][] field) {
         doAIMove(field);
         drawFiled(field);
-        return isNextMoveAvailable(field, 'X', "Congrats! You are winner!");
+        return isNextMoveAvailable(field, aiChar, "Congrats! You are winner!");
     }
 
-    static boolean isWin(char[][] field, char sign) {
+    static boolean isWinNew(char[][] field, char sign) {
+        boolean cols, rows, mainDiagonal, dopDiagonal;
+        mainDiagonal = true;
+        dopDiagonal = true;
         for (int i = 0; i < field.length; i++) {
-            if (field[i][0] == sign && field[i][1] == sign && field[i][2] == sign) {
-                return true;
+            cols = true;
+            rows = true;
+            for (int row = 0; row < field.length; row++) {
+                cols &= (field[i][row] == sign);
+                rows &= (field[row][i] == sign);
             }
-            if (field[0][i] == sign && field[1][i] == sign && field[2][i] == sign) {
-                return true;
-            }
+            if (cols || rows) return true;
+            mainDiagonal &= (field[i][i] == sign);
+            dopDiagonal &= (field[field.length - i - 1][i] == sign);
         }
-        if (field[0][0] == sign && field[1][1] == sign && field[2][2] == sign) {
-            return true;
-        }
-        if (field[0][2] == sign && field[1][1] == sign && field[2][0] == sign) {
-            return true;
-        }
+
+        if (mainDiagonal || dopDiagonal) return true;
+
         return false;
     }
 
@@ -60,7 +67,7 @@ public class TikTacToe {
             y = random.nextInt(field.length);
         } while (isCellFree(field, x, y));
 
-        field[x][y] = '0';
+        field[x][y] = playerChar;
     }
 
     static void doPlayerMove(char[][] field) {
@@ -72,7 +79,7 @@ public class TikTacToe {
             y = checkCoordinateRange(scanner, 'Y');
         } while (isCellFree(field, x, y));
 
-        field[x][y] = 'X';
+        field[x][y] = aiChar;
     }
 
     static int checkCoordinateRange(Scanner scanner, char coordName) {
@@ -80,7 +87,7 @@ public class TikTacToe {
         do {
             System.out.printf("Please input %s-coordinate in range [1-3]...", coordName);
             val = scanner.nextInt() - 1;
-        } while (val < 0 || val > 2);
+        } while (val < 0 || val > 3);
         return val;
     }
 
@@ -97,9 +104,10 @@ public class TikTacToe {
 
     static char[][] createField() {
         return new char[][]{
-                {'-', '-', '-'},
-                {'-', '-', '-'},
-                {'-', '-', '-'}
+                {'-', '-', '-', '-'},
+                {'-', '-', '-', '-'},
+                {'-', '-', '-', '-'},
+                {'-', '-', '-', '-'}
         };
     }
 
@@ -118,12 +126,12 @@ public class TikTacToe {
         return field[x][y] != '-';
     }
 
-    static boolean isNextMoveAvailable(char[][] field, char sign, String winMessage){
+    static boolean isNextMoveAvailable(char[][] field, char sign, String winMessage) {
         if (isDraw(field)) {
             System.out.println("There is draw detected. Finish!");
             return false;
         }
-        if (isWin(field, sign)) {
+        if (isWinNew(field, sign)) {
             System.out.println(winMessage);
             return false;
         }
