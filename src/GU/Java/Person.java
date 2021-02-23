@@ -1,12 +1,16 @@
 package GU.Java;
 
 public class Person {
-    public String fio;
-    public String position;
-    public String email;
-    public String phone;
-    public float salary;
-    public int age;
+    private String fio;
+    private String position;
+    private String email;
+    private String phone;
+    private float salary;
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
 
     //task2
     public Person(String fio, String position, String email, String phone, float salary, int age) {

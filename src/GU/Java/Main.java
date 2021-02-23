@@ -21,7 +21,7 @@ public class Main {
 
     public static void doTask5(Person[] persons){
        for(Person person : persons){
-           if(person.age > 40) person.printPerson();
+           if(person.getAge() > 40) person.printPerson();
        }
     }
 }
