@@ -4,12 +4,12 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TikTacToe {
-    public static int FIELD_SIZE = 5;         // размер игрового поля
-    public static int DOTS_TO_WIN = 4;        // сколько ячеек нужно подряд заполнить, чтобы победить
+    public static int fieldSize = 5;
+    public static int dotsToWin = 4;
 
-    public static char EMPTY_DOT = '_';
-    public static char PLAYER_CHAR = 'X';
-    public static char AI_CHAR = 'O';
+    public static char emptyDot = '_';
+    public static char playerChar = 'X';
+    public static char aiChar = 'O';
 
     public static Scanner input = new Scanner(System.in);
     public static char[][] gameField;
@@ -35,99 +35,99 @@ public class TikTacToe {
     static boolean checkNextPlayerMove() {
         doPlayerMove();
         drawFiled();
-        return isNextMoveAvailable(PLAYER_CHAR, "Sorry, AI is winner!");
+        return isNextMoveAvailable(playerChar, "Sorry, AI is winner!");
     }
 
     static boolean checkNextAIMove() {
         doAIMove();
         drawFiled();
-        return isNextMoveAvailable(AI_CHAR, "Congrats! You are winner!");
+        return isNextMoveAvailable(aiChar, "Congrats! You are winner!");
     }
 
     public static boolean isWin(char playerDot) {
         int hor, ver;
         int diagMain, diagReverse;
-        for (int i = 0; i < FIELD_SIZE; i++) {
+        for (int i = 0; i < fieldSize; i++) {
             hor = 0;
             ver = 0;
-            for (int j = 0; j < FIELD_SIZE; j++) {
+            for (int j = 0; j < fieldSize; j++) {
                 if (gameField[i][j] == playerDot) {
                     hor++;
-                } else if (gameField[i][j] != playerDot && hor < DOTS_TO_WIN) {
+                } else if (gameField[i][j] != playerDot && hor < dotsToWin) {
                     hor = 0;
                 }
                 if (gameField[j][i] == playerDot) {
                     ver++;
-                }   else if (gameField[j][i] != playerDot && ver < DOTS_TO_WIN) {
+                }   else if (gameField[j][i] != playerDot && ver < dotsToWin) {
                     ver = 0;
                 }
             }
-            if (hor >= DOTS_TO_WIN || ver >= DOTS_TO_WIN) {
+            if (hor >= dotsToWin || ver >= dotsToWin) {
                 return true;
             }
         }
 
-        for (int j = 0; j < FIELD_SIZE; j++) {
+        for (int j = 0; j < fieldSize; j++) {
             diagMain = 0;
-            for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int i = 0; i < fieldSize; i++) {
                 int k = j + i;
-                if (k < FIELD_SIZE) {
+                if (k < fieldSize) {
                     if (gameField[i][k] == playerDot) {
                         diagMain++;
-                    } else if (gameField[i][k] != playerDot && diagMain < DOTS_TO_WIN) {
+                    } else if (gameField[i][k] != playerDot && diagMain < dotsToWin) {
                         diagMain = 0;
                     }
                 }
-                if (diagMain >= DOTS_TO_WIN) {
+                if (diagMain >= dotsToWin) {
                     return true;
                 }
             }
         }
-        for (int j = 1; j < FIELD_SIZE; j++) {
+        for (int j = 1; j < fieldSize; j++) {
             diagMain = 0;
-            for (int i = 0; i < FIELD_SIZE; i++) {
+            for (int i = 0; i < fieldSize; i++) {
                 int k = j + i;
-                if (k < FIELD_SIZE) {
+                if (k < fieldSize) {
                     if (gameField[k][i] == playerDot) {
                         diagMain++;
-                    } else if (gameField[k][i] != playerDot && diagMain < DOTS_TO_WIN) {
+                    } else if (gameField[k][i] != playerDot && diagMain < dotsToWin) {
                         diagMain = 0;
                     }
                 }
-                if (diagMain >= DOTS_TO_WIN) {
+                if (diagMain >= dotsToWin) {
                     return true;
                 }
             }
         }
-        for (int j = 0; j < FIELD_SIZE; j++) {
+        for (int j = 0; j < fieldSize; j++) {
             diagReverse = 0;
-            for (int i = 0; i < FIELD_SIZE; i++) {
-                int k = (FIELD_SIZE - 1) - i;
+            for (int i = 0; i < fieldSize; i++) {
+                int k = (fieldSize - 1) - i;
                 int l = j + i;
-                if (k >= 0 && l < FIELD_SIZE) {
+                if (k >= 0 && l < fieldSize) {
                     if (gameField[l][k] == playerDot) {
                         diagReverse++;
-                    } else if (gameField[l][k] != playerDot && diagReverse < DOTS_TO_WIN) {
+                    } else if (gameField[l][k] != playerDot && diagReverse < dotsToWin) {
                         diagReverse = 0;
                     }
                 }
-                if (diagReverse >= DOTS_TO_WIN) {
+                if (diagReverse >= dotsToWin) {
                     return true;
                 }
             }
         }
-        for (int j = 1; j < FIELD_SIZE; j++) {
+        for (int j = 1; j < fieldSize; j++) {
             diagReverse = 0;
-            for (int i = 0; i < FIELD_SIZE; i++) {
-                int k = (FIELD_SIZE - 1) - j - i;
+            for (int i = 0; i < fieldSize; i++) {
+                int k = (fieldSize - 1) - j - i;
                 if (k >= 0) {
-                    if (gameField[i][k] == playerDot) {     // проверяем побочную диагональ от центральной оси влево на возможную победу
+                    if (gameField[i][k] == playerDot) {
                         diagReverse++;
-                    } else if (gameField[i][k] != playerDot && diagReverse < DOTS_TO_WIN) {
+                    } else if (gameField[i][k] != playerDot && diagReverse < dotsToWin) {
                         diagReverse = 0;
                     }
                 }
-                if (diagReverse >= DOTS_TO_WIN) {
+                if (diagReverse >= dotsToWin) {
                     return true;
                 }
             }
@@ -143,7 +143,7 @@ public class TikTacToe {
             y = random.nextInt(gameField.length);
         } while (isCellFree(x, y));
 
-        gameField[x][y] = PLAYER_CHAR;
+        gameField[x][y] = playerChar;
     }
 
     static void doPlayerMove() {
@@ -154,22 +154,22 @@ public class TikTacToe {
             y = checkCoordinateRange('Y');
         } while (isCellFree(x, y));
 
-        gameField[x][y] = AI_CHAR;
+        gameField[x][y] = aiChar;
     }
 
     static int checkCoordinateRange(char coordName) {
         int val;
         do {
-            System.out.printf("Please input %s-coordinate in range [1-%s]...", coordName, FIELD_SIZE);
+            System.out.printf("Please input %s-coordinate in range [1-%s]...", coordName, fieldSize);
             val = input.nextInt() - 1;
-        } while (val < 0 || val > FIELD_SIZE);
+        } while (val < 0 || val > fieldSize);
         return val;
     }
 
     static boolean isDraw() {
         for (int i = 0; i < gameField.length; i++) {
             for (int j = 0; j < gameField[i].length; j++) {
-                if (gameField[i][j] == EMPTY_DOT) {
+                if (gameField[i][j] == emptyDot) {
                     return false;
                 }
             }
@@ -178,10 +178,10 @@ public class TikTacToe {
     }
 
     private static void createField() {
-        gameField = new char[FIELD_SIZE][FIELD_SIZE];
-        for (int i = 0; i < FIELD_SIZE; i++) {
-            for (int j = 0; j < FIELD_SIZE; j++) {
-                gameField[i][j] = EMPTY_DOT;
+        gameField = new char[fieldSize][fieldSize];
+        for (int i = 0; i < fieldSize; i++) {
+            for (int j = 0; j < fieldSize; j++) {
+                gameField[i][j] = emptyDot;
             }
         }
     }
@@ -197,7 +197,7 @@ public class TikTacToe {
     }
 
     static boolean isCellFree(int x, int y) {
-        return gameField[x][y] != EMPTY_DOT;
+        return gameField[x][y] != emptyDot;
     }
 
     static boolean isNextMoveAvailable(char sign, String winMessage) {
