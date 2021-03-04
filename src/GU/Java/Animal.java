@@ -1,22 +1,41 @@
 package GU.Java;
 
-public class Animal {
-    public String name;
-    static int count;
+public abstract class Animal {
+    private String name;
+    private int maxRunDistance;
+    private int maxSwimDistance;
 
-    public Animal() {
-        count++;
-        this.name = "Безымянное животное";
+    public String getName() {
+        return name;
     }
+
+    public Animal(String name, int maxRunDistance, int maxSwimDistance) {
+        this.name = name;
+        this.maxRunDistance = maxRunDistance;
+        this.maxSwimDistance = maxSwimDistance;
+    }
+
+    public int getMaxRunDistance() {
+        return maxRunDistance;
+    }
+
+    public int getMaxSwimDistance() {
+        return maxSwimDistance;
+    }
+
     public Animal(String name) {
-        count++;
         this.name = name;
     }
 
-    public void run(int wayLength){
-        System.out.println(this.name + " пробежал " + wayLength + " м.");
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "name='" + name + '\'' +
+                ", maxRunDistance=" + maxRunDistance +
+                ", maxSwimDistance=" + maxSwimDistance +
+                '}';
     }
-    public void swim(int wayLength){
-        System.out.println(this.name + " проплыл " + wayLength + " м.");
-    }
+
+    public abstract boolean run(int distance);
+    public abstract boolean swim(int distance);
 }
