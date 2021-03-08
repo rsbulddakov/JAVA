@@ -1,25 +1,37 @@
 package GU.Java;
 
-public class Cat extends Animal {
-    private static int catCount;
 
-    public Cat(int maxRunDistance) {
-        super("Kitty", maxRunDistance, 0);
-        catCount++;
+public class Cat {
+    private String name;
+    private int appetite;
+    private boolean isFull;
+
+    public Cat(String name, int appetite) {
+        this.name = name;
+        this.appetite = appetite;
+        this.isFull = false;
     }
-
-    public static int getCatCount() {
-        return catCount;
+    public void eat(Plate p) {
+        if(p.decreaseFood(appetite)){
+            setFull(true);
+        }
     }
 
     @Override
-    public boolean swim(int distance) {
-        System.out.println("Cats cannot swim...");
-        return false;
+    public String toString() {
+        return "Cat{" +
+                "name='" + name + '\'' +
+                ", appetite=" + appetite +
+                ", isFull=" + isFull +
+                '}';
     }
 
-    @Override
-    public boolean run(int distance) {
-        return distance <= getMaxRunDistance();
+    public void setAppetite(int appetite) {
+        this.appetite = appetite;
+    }
+
+    public void setFull(boolean full) {
+        isFull = full;
     }
 }
+
