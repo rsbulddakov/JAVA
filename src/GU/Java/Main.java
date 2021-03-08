@@ -4,6 +4,7 @@ public class Main {
     public static void main(String[] args) {
         doTask5();
         doTask6();
+
     }
 
     public static void doTask5() {
@@ -13,6 +14,7 @@ public class Main {
             cats[i] = new Cat("Кот", i);
             cats[i].setAppetite((i + 1) * 10);
         }
+        return "asda";
 
         for(int i = 0; i < cats.length; i++){
             cats[i].eat(commonPlate);

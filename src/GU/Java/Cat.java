@@ -9,7 +9,6 @@ public class Cat {
     public Cat(String name, int appetite) {
         this.name = name;
         this.appetite = appetite;
-        this.isFull = false;
     }
     public void eat(Plate p) {
         if(p.decreaseFood(appetite)){
