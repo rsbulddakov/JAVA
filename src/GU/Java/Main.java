@@ -51,9 +51,9 @@ public class Main {
         book.add("Сидоров", "+79111231231");
         book.add("Иванов", "+79111231231");
 
-        book.get("Петров");
-        book.get("Иванов");
-        book.get("Сергеев");
+        book.find("Петров");
+        book.find("Иванов");
+        book.find("Сергеев");
     }
 
     public static HashMap<String, Integer> findUniqueInList(ArrayList<String> arrayList){

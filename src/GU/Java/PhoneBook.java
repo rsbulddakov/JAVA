@@ -15,12 +15,15 @@ public class PhoneBook {
         book.put(surname, buffer);
     }
 
-    public void get(String surname){
-        ArrayList<String> result = new ArrayList<>();
-        if(book.containsKey(surname)){
+    public ArrayList<String> get(String surname){
+        return book.get(surname);
+    }
+
+    public void find(String surname){
+        ArrayList<String> result = get(surname);
+        if(result != null){
             String mess = String.format("По запросу '%s' найдены следующие номера:", surname);
             System.out.println(mess);
-            result = book.get(surname);
             for (String phone : result){
                 System.out.println(phone);
             }
