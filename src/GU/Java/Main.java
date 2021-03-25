@@ -1,76 +1,51 @@
 package GU.Java;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class Main {
 
     public static void main(String[] args) {
 	// write your code here
         doTask1();
-
         doTask2();
+        doTask3();
+        doTask4();
     }
 
     public static void doTask1(){
-        ArrayList<String> list = new ArrayList<>();
-        list.add("понедельник");
-        list.add("февраль");
-        list.add("вторник");
-        list.add("апрель");
-        list.add("среда");
-        list.add("июнь");
-        list.add("четверг");
-        list.add("август");
-        list.add("пятница");
-        list.add("суббота");
-        list.add("февраль");
-        list.add("декабрь");
-        list.add("январь");
-        list.add("февраль");
-        list.add("март");
-        list.add("апрель");
-        list.add("май");
-        list.add("июнь");
-        list.add("июль");
-        list.add("август");
-        list.add("сентябрь");
-        list.add("среда");
-        list.add("ноябрь");
-        list.add("декабрь");
-
-        printUniqueInArray(findUniqueInList(list));
-        printCountInArray(findUniqueInList(list));
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        list.forEach(System.out::println);
     }
 
     public static void doTask2(){
-        PhoneBook book = new PhoneBook();
-        book.add("Петров", "+79111231231");
-        book.add("Петров", "+79111231232");
-        book.add("Петров", "+79111231233");
-        book.add("Петров", "+79111231234");
-        book.add("Сидоров", "+79111231231");
-        book.add("Иванов", "+79111231231");
-
-        book.get("Иванов");
+        Set<String> set = Set.of("New York", "London", "Rome", "Paris", "Tokio");
+        Consumer<String> cons = System.out::println;
+        forItem(set, cons);
     }
 
-    public static HashMap<String, Integer> findUniqueInList(ArrayList<String> arrayList){
-        HashMap<String, Integer> countMap = new HashMap<>();
-        for (String key : arrayList) {
-            int count = countMap.getOrDefault(key, 0);
-            countMap.put(key, ++count);
+    public static void doTask3(){
+        doubleUp(12, () -> 3);
+    }
+
+    public static void doTask4(){
+        System.out.println(findAllChars("ababacavadab", 'a').get());
+    }
+
+    public static void forItem(Set<String> set, Consumer<String> cons){
+        set.forEach(cons);
+    }
+
+    public static int doubleUp(int i, Supplier<Integer> supp){
+        return i * supp.get();
+    }
+
+    public static Optional<String> findAllChars(String target, char toFind){
+        String result = "";
+        for (char ch : target.toCharArray()){
+            if(ch == toFind)  result+=ch;
         }
-        return countMap;
-    }
-
-    public static void printUniqueInArray(HashMap<String, Integer> map){
-        System.out.println(map.keySet());
-    }
-
-    public static void printCountInArray(HashMap<String, Integer> map){
-        map.forEach((key, value) ->{
-            System.out.printf("'%s' встречается в массиве %s раз(а)", key, value);
-            System.out.println();
-        });
+        return Optional.of(result);
     }
 }
