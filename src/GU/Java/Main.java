@@ -34,8 +34,18 @@ public class Main {
         System.arraycopy(arr, 0, a1, 0, h);
         System.arraycopy(arr, h, a2, 0, h);
 
-        new Thread(new MyRunnableClass(a1)).start();
-        new Thread(new MyRunnableClass(a2)).start();
+        Thread t1 = new Thread(() -> doMath(a1));
+        Thread t2 = new Thread(() -> doMath(a2));
+
+        t1.start();
+        t2.start();
+
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
         System.arraycopy(a1, 0, arr, 0, h);
         System.arraycopy(a2, 0, arr, h, h);
@@ -49,16 +59,9 @@ public class Main {
         }
     }
 
-    static class MyRunnableClass implements Runnable {
-        private float[] arr;
-
-        public MyRunnableClass(float[] arr) {
-            this.arr = arr;
-        }
-
-        @Override
-        public void run() {
-            doMath(arr);
+    public static void printArray(float[] arr){
+        for(int i = 0; i < arr.length; i++){
+            System.out.println(i + ") : " + arr[i]);
         }
     }
 
