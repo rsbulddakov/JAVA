@@ -1,6 +1,6 @@
 package GU.Java.chat;
 
-import ru.gb.chat.server.ChatServer;
+import GU.Java.chat.server.ChatServer;
 
 public class ServerApp {
     public static void main(String[] args) {

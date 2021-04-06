@@ -37,6 +37,12 @@ public class ChatServer {
         }
     }
 
+    public void direct(String message, String username) {
+        loggedClients.stream()
+                .filter(client -> client.getName().equals(username))
+                .findFirst().ifPresent(s -> s.sendMessage(message));
+    }
+
     public void subscribe(ClientHandler clientHandler) {
         loggedClients.add(clientHandler);
     }

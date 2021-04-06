@@ -1,5 +1,7 @@
 package GU.Java.chat.server;
 
+import GU.Java.chat.client.ChatClient;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -83,7 +85,18 @@ public class ClientHandler {
         while (true) {
             try {
                 String message = in.readUTF();
-                chatServer.broadcast(String.format("%s: %s", name, message));
+                if(message.startsWith("/w")){
+                    String[] credentialsStruct = message.split("\\s");
+                    String username = credentialsStruct[1];
+                    if(chatServer.isLoggedIn(username)){
+                        String persMessage = message.replaceFirst("/w " + username + " ", "");
+                        chatServer.direct(String.format("%s: %s", name, persMessage), username);
+                    } else {
+                        sendMessage(String.format("User[%s] is offline", username));
+                    }
+                } else {
+                    chatServer.broadcast(String.format("%s: %s", name, message));
+                }
             } catch (IOException e) {
                 throw new ChatServerException("Something went wrong during receiving the message.", e);
             }
