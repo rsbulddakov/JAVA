@@ -1,8 +1,8 @@
 package GU.Java.chat.server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import GU.Java.chat.logger.logs.Logger;
+
+import java.io.*;
 import java.net.Socket;
 import java.util.Optional;
 import java.util.Timer;
@@ -14,6 +14,7 @@ public class ClientHandler {
     private DataOutputStream out;
     private ChatServer chatServer;
     private String name;
+    private String login;
     private int secondsForAuth = 120;
     private boolean isLogined = false;
 
@@ -36,6 +37,9 @@ public class ClientHandler {
 
     public String getName() {
         return name;
+    }
+    public String getLogin() {
+        return login;
     }
 
     private void listen() {
@@ -66,8 +70,10 @@ public class ClientHandler {
                         if (!chatServer.isLoggedIn(credentials.getLogin())) {
                             isLogined = true;
                             name = credentials.getName();
+                            this.login = credentials.getLogin();
                             chatServer.broadcast(String.format("User[%s] entered the chat", name));
                             chatServer.subscribe(this);
+                            sendMessage(Logger.readLastLines("history_all.txt", 100));
                             return;
                         } else {
                             sendMessage(String.format("User with name %s is already logged in", credentials.getName()));
@@ -89,7 +95,10 @@ public class ClientHandler {
         while (true) {
             try {
                 String message = in.readUTF();
-                chatServer.broadcast(String.format("%s: %s", name, message));
+                String formatted_message = String.format("%s: %s", name, message);
+                chatServer.broadcast(formatted_message);
+                Logger.addLine("history_" + login + ".txt", formatted_message);
+                Logger.addLine("history_all.txt", formatted_message);
             } catch (IOException e) {
                 throw new ChatServerException("Something went wrong during receiving the message.", e);
             }
