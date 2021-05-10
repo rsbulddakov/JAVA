@@ -63,7 +63,7 @@ public class ClientHandler {
 
                     if (mayBeCredentials.isPresent()) {
                         User credentials = mayBeCredentials.get();
-                        if (!chatServer.isLoggedIn(credentials.getName())) {
+                        if (!chatServer.isLoggedIn(credentials.getLogin())) {
                             isLogined = true;
                             name = credentials.getName();
                             chatServer.broadcast(String.format("User[%s] entered the chat", name));

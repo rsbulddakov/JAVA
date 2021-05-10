@@ -23,8 +23,8 @@ public class UserRepository {
                         new User(
                                 result.getInt("id"),
                                 result.getString("login"),
-                                result.getString("name"),
-                                result.getString("password")
+                                result.getString("password"),
+                                result.getString("name")
                         )
                 );
             }

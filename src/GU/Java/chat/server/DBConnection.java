@@ -7,14 +7,13 @@ import java.sql.SQLException;
 public class DBConnection {
     public static Connection getInstance(){
         try{
-            DriverManager.getConnection(
-                    "jdbc:mysql://localhost:8888/users_db",
+            return DriverManager.getConnection(
+                    "jdbc:mysql://localhost:8889/users_db?autoReconnect=true&useSSL=false",
                     "root",
                     "root"
             );
         } catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return null;
     }
 }
