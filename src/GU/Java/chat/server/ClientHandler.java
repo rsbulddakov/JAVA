@@ -58,11 +58,11 @@ public class ClientHandler {
                     String login = credentialsStruct[1];
                     String password = credentialsStruct[2];
 
-                    Optional<AuthenticationService.Entry> mayBeCredentials = chatServer.getAuthenticationService()
-                            .findEntryByCredentials(login, password);
+                    Optional<User> mayBeCredentials = Optional.ofNullable(chatServer.getAuthenticationService()
+                            .findEntryByCredentials(login, password));
 
                     if (mayBeCredentials.isPresent()) {
-                        AuthenticationService.Entry credentials = mayBeCredentials.get();
+                        User credentials = mayBeCredentials.get();
                         if (!chatServer.isLoggedIn(credentials.getName())) {
                             isLogined = true;
                             name = credentials.getName();

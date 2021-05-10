@@ -1,50 +1,41 @@
 package GU.Java.chat.server;
 
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.Set;
-
 public class AuthenticationService {
-    private static final Set<Entry> entries = Set.of(
-            new Entry("User1", "l1", "p1"),
-            new Entry("User2", "l2", "p2"),
-            new Entry("User3", "l3", "p3")
-    );
+    private final UserRepository repository;
 
-    public Optional<Entry> findEntryByCredentials(String login, String password) {
-//        Iterator<Entry> iterator = entries.iterator();
-//        while (iterator.hasNext()) {
-//            Entry next = iterator.next();
-//            if (next.getLogin().equals(login) && next.getPassword().equals(password)) {
-//                return Optional.of(next);
-//            }
-//        }
-//        return Optional.empty();
+    public AuthenticationService(UserRepository repository) {
+        this.repository = repository;
+    }
 
-        return entries.stream()
-                .filter(entry -> entry.getLogin().equals(login) && entry.getPassword().equals(password))
-                .findFirst();
+    public User findEntryByCredentials(String login, String password) {
+        return repository.getAuth(login, password)
+                .orElseThrow(
+                        () -> new RuntimeException("Invalid login or password for " + login)
+                );
     }
 
     public static class Entry {
+        private int id;
         private String name;
         private String login;
         private String password;
 
-        public Entry(String name, String login, String password) {
+        public Entry(int id, String name, String login, String password) {
+            this.id = id;
             this.name = name;
             this.login = login;
             this.password = password;
         }
 
+        public int getId() {
+            return id;
+        }
         public String getName() {
             return name;
         }
-
         public String getLogin() {
             return login;
         }
-
         public String getPassword() {
             return password;
         }

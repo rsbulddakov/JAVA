@@ -11,7 +11,7 @@ public class ChatServer {
     private final Set<ClientHandler> loggedClients;
 
     public ChatServer() {
-        authenticationService = new AuthenticationService();
+        authenticationService = new AuthenticationService(new UserRepository());
         loggedClients = new HashSet<>();
 
         try {
